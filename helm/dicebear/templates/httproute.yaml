@@ -5,6 +5,9 @@
 {{- if not .Values.route.hostnames }}
 {{- fail "route.hostnames is required when route.enabled is true; an empty list would attach the route to every hostname of the parent Gateway" }}
 {{- end }}
+{{- if not (regexMatch "^[a-zA-Z0-9]+$" (.Values.route.version | toString)) }}
+{{- fail (printf "route.version (%v) must match ^[a-zA-Z0-9]+$; it is interpolated unescaped into the path-matching regular expressions, so a metacharacter (e.g. a dot in \"v1.2\") would silently widen or break routing" .Values.route.version) }}
+{{- end }}
 {{- if not .Values.route.sizes }}
 {{- fail "route.sizes must not be empty when route.enabled is true" }}
 {{- end }}

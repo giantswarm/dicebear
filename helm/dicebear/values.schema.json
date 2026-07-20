@@ -170,7 +170,8 @@
                 },
                 "version": {
                     "description": "Path version segment. A future global restyle bumps this to mint fresh URLs.",
-                    "type": "string"
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9]+$"
                 }
             },
             "additionalProperties": false
