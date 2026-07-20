@@ -1,18 +1,30 @@
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/giantswarm/{APP-NAME}/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/giantswarm/{APP-NAME}/tree/main)
-[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/giantswarm/{APP-NAME}/badge)](https://securityscorecards.dev/viewer/?uri=github.com/giantswarm/{APP-NAME})
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/giantswarm/dicebear/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/giantswarm/dicebear/tree/main)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/giantswarm/dicebear/badge)](https://securityscorecards.dev/viewer/?uri=github.com/giantswarm/dicebear)
 
 [Guide about how to manage an app on Giant Swarm](https://handbook.giantswarm.io/docs/dev-and-releng/app-developer-processes/adding_app_to_appcatalog/)
 
-# {APP-NAME} chart
+# dicebear chart
 
-Giant Swarm offers a {APP-NAME} App which can be installed in workload clusters.
-Here, we define the {APP-NAME} chart with its templates and default configuration.
+This chart deploys a self-hosted [DiceBear](https://www.dicebear.com/) avatar HTTP API
+(the upstream `dicebear/api` image, mirrored to `gsoci.azurecr.io/giantswarm/dicebear-api`).
 
 **What is this app?**
 
+DiceBear is an open-source avatar generator. This chart runs its HTTP API in-cluster so
+the platform can render agent avatar icons — two initials on a deterministic, color-blind-safe
+colored background, derived entirely from an agent's technical name.
+
 **Why did we add it?**
 
+Agents on the platform need a stable visual identity that looks the same across every
+surface (Backstage, Slack, and any future chat surface). Self-hosting removes a
+third-party runtime dependency and rate limits from a customer-facing feature, and lets us
+raise the raster output-size cap. See [giantswarm/giantswarm#37211](https://github.com/giantswarm/giantswarm/issues/37211).
+
 **Who can use it?**
+
+The agent platform (bumblebee) deploys it wherever the platform bundle runs. It is not
+intended for direct customer configuration.
 
 ## Installing
 
@@ -65,4 +77,5 @@ Not following these limitations will most likely result in a broken deployment.
 
 ## Credit
 
-- {APP HELM REPOSITORY}
+- Upstream project: https://github.com/dicebear/dicebear
+- Upstream image: https://hub.docker.com/r/dicebear/api
