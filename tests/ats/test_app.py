@@ -6,7 +6,6 @@ from pytest_helm_charts.k8s.deployment import wait_for_deployments_to_run
 
 
 @mark.smoke
-@mark.functional
 def test_dicebear_running(kube_cluster: Cluster) -> None:
     assert kube_cluster.kube_client is not None
 
@@ -15,7 +14,7 @@ def test_dicebear_running(kube_cluster: Cluster) -> None:
     wait_for_deployments_to_run(kube_cluster.kube_client, ["dicebear"], "dicebear", 60)
 
 
-@mark.functional
+@mark.smoke
 def test_avatar_renders(kube_cluster: Cluster) -> None:
     assert kube_cluster.kube_client is not None
 
