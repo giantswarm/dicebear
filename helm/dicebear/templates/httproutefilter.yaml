@@ -1,6 +1,6 @@
 {{- if .Values.route.enabled }}
 {{- $name := include "name" . }}
-{{- $version := .Values.route.version }}
+{{- $version := include "route.version" . }}
 {{- $sizes := join "|" .Values.route.sizes }}
 {{- /* DiceBear-10-only image; the initials style rendered as PNG. */}}
 {{- $target := "/10.x/initials/png" }}

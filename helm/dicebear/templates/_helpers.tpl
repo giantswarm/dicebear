@@ -32,3 +32,18 @@ Selector labels
 app.kubernetes.io/name: {{ include "name" . | quote }}
 app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
+
+{{/*
+Validated route version. Interpolated unescaped into the path-matching regular
+expressions in httproute.yaml and httproutefilter.yaml, so a metacharacter (e.g.
+the dot in "v1.2") would silently widen or break routing. values.schema.json
+enforces the same pattern; this guard also holds when a consumer renders the
+templates with schema validation skipped.
+*/}}
+{{- define "route.version" -}}
+{{- $version := .Values.route.version | toString -}}
+{{- if not (regexMatch "^[a-zA-Z0-9]+$" $version) -}}
+{{- fail (printf "route.version (%v) must match ^[a-zA-Z0-9]+$" .Values.route.version) -}}
+{{- end -}}
+{{- $version -}}
+{{- end -}}
