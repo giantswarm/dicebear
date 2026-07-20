@@ -10,8 +10,9 @@ def test_dicebear_running(kube_cluster: Cluster) -> None:
     assert kube_cluster.kube_client is not None
 
     # Wait for the dicebear app and deployment to reach running state.
+    # The deployment timeout is generous to absorb the first image pull in kind.
     wait_for_apps_to_run(kube_cluster.kube_client, ["dicebear"], "dicebear", 60)
-    wait_for_deployments_to_run(kube_cluster.kube_client, ["dicebear"], "dicebear", 60)
+    wait_for_deployments_to_run(kube_cluster.kube_client, ["dicebear"], "dicebear", 120)
 
 
 @mark.smoke

@@ -8,8 +8,10 @@
 image:
   # -- Repository of the DiceBear API image, relative to the registry domain.
   name: "giantswarm/dicebear-api"
-  # -- Image tag. Defaults to the chart's `appVersion` when left empty.
-  tag: ""
+  # -- Image tag. Pinned explicitly to the mirrored upstream tag; do NOT leave
+  # empty to fall back to appVersion, because app-build-suite rewrites
+  # appVersion to the chart's dev/release version at build time.
+  tag: "4.9"
 registry:
   # -- Registry domain the image is pulled from.
   domain: gsoci.azurecr.io

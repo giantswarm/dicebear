@@ -14,7 +14,7 @@ Self-hosted DiceBear avatar HTTP API, used to render deterministic agent avatar 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | image.name | string | `"giantswarm/dicebear-api"` | Repository of the DiceBear API image, relative to the registry domain. |
-| image.tag | string | `""` | Image tag. Defaults to the chart's `appVersion` when left empty. |
+| image.tag | string | `"4.9"` | Image tag. Pinned explicitly to the mirrored upstream tag; do NOT leave empty to fall back to appVersion, because app-build-suite rewrites appVersion to the chart's dev/release version at build time. |
 | registry.domain | string | `"gsoci.azurecr.io"` | Registry domain the image is pulled from. |
 | replicas | int | `2` | Number of DiceBear API replicas to run. |
 | config.port | int | `3000` | Port the DiceBear API listens on. |

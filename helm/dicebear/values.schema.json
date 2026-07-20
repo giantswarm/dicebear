@@ -39,7 +39,7 @@
                     "type": "string"
                 },
                 "tag": {
-                    "description": "Image tag. Defaults to the chart's `appVersion` when left empty.",
+                    "description": "Image tag. Pinned explicitly to the mirrored upstream tag; do NOT leave empty to fall back to appVersion, because app-build-suite rewrites appVersion to the chart's dev/release version at build time.",
                     "type": "string"
                 }
             },
