@@ -84,7 +84,7 @@ route:
   # @schema type:array
   # -- Hostnames the avatar endpoint is served on (e.g. `avatars.example.com`).
   hostnames: []
-  # @schema type:string
+  # @schema type:string;pattern:^[a-zA-Z0-9]+$
   # -- Path version segment. A future global restyle bumps this to mint fresh URLs.
   version: v1
   # -- Allowed avatar sizes (px). Only these are accepted in the URL.
