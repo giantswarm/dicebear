@@ -19,6 +19,10 @@
             },
             "additionalProperties": false
         },
+        "emptyDirSizeLimit": {
+            "description": "Size limit for the emptyDir volumes backing `/tmp` (PNG rendering) and `/run`, to bound node ephemeral-storage use.",
+            "type": "string"
+        },
         "global": {
             "description": "Global values shared between all subcharts",
             "$comment": "Added automatically by 'helm schema' to allow this chart to be used as a Helm dependency, as the `additionalProperties` setting would otherwise collide with Helm's special 'global' values key.",
@@ -96,6 +100,9 @@
                         "cpu": {
                             "type": "string"
                         },
+                        "ephemeral-storage": {
+                            "type": "string"
+                        },
                         "memory": {
                             "type": "string"
                         }
@@ -106,6 +113,9 @@
                     "type": "object",
                     "properties": {
                         "cpu": {
+                            "type": "string"
+                        },
+                        "ephemeral-storage": {
                             "type": "string"
                         },
                         "memory": {

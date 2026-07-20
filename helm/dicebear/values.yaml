@@ -29,15 +29,24 @@ config:
   # to 512, and the upstream default of 256 is too small, so we raise the cap.
   pngSizeMax: 512
 
+# @schema type:string
+# -- Size limit for the emptyDir volumes backing `/tmp` (PNG rendering) and
+# `/run`, to bound node ephemeral-storage use.
+emptyDirSizeLimit: 64Mi
+
 # @schema $ref: $k8s/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements
 # -- Compute resources for the DiceBear API container.
 resources:
   requests:
     cpu: 50m
     memory: 64Mi
+    # Required by Kyverno policy for pods using emptyDir; covers both the
+    # /tmp and /run volumes (emptyDirSizeLimit each) plus headroom.
+    ephemeral-storage: 64Mi
   limits:
     cpu: 500m
     memory: 256Mi
+    ephemeral-storage: 256Mi
 
 # @schema $ref: $k8s/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext
 # -- Pod-level security context.
