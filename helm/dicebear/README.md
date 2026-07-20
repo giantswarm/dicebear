@@ -27,7 +27,7 @@ Self-hosted DiceBear avatar HTTP API, used to render deterministic agent avatar 
 | route.parentRefs | list | `[]` | Parent Gateway references the HTTPRoute attaches to. Required when enabled. |
 | route.hostnames | list | `[]` | Hostnames the avatar endpoint is served on (e.g. `avatars.example.com`). |
 | route.version | string | `"v1"` | Path version segment. A future global restyle bumps this to mint fresh URLs. |
-| route.sizes | list | `[48,96,128,512]` | Whitelisted avatar sizes (px). Only these are accepted in the URL. |
+| route.sizes | list | `[48,96,128,512]` | Allowed avatar sizes (px). Only these are accepted in the URL. |
 | route.defaultSize | int | `512` | Size used when the URL omits one. Must be one of `sizes`. |
 | route.preview | bool | `true` | Also expose no-cache preview routes under `/<version>/preview/...` for the creation-time live preview. |
 | route.annotations | object | `{}` | Extra annotations for the HTTPRoute. |

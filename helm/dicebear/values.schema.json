@@ -162,7 +162,7 @@
                     "type": "boolean"
                 },
                 "sizes": {
-                    "description": "Whitelisted avatar sizes (px). Only these are accepted in the URL.",
+                    "description": "Allowed avatar sizes (px). Only these are accepted in the URL.",
                     "type": "array",
                     "items": {
                         "type": "integer"
