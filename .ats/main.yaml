@@ -1,0 +1,10 @@
+app-tests-deploy-namespace: dicebear
+
+smoke-tests-cluster-type: kind
+functional-tests-cluster-type: kind
+
+# This is a brand-new chart with no released version in the catalog yet, so
+# there is nothing to upgrade from. Skip upgrade tests until a first release
+# exists, then drop this and add upgrade-tests-cluster-type: kind.
+skip-steps:
+  - upgrade
