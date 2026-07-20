@@ -45,12 +45,17 @@ spec:
               containerPort: {{ .Values.config.port }}
               protocol: TCP
           livenessProbe:
-            tcpSocket:
+            httpGet:
+              # No dedicated health endpoint; the initials SVG route always
+              # renders (200) and exercises the render path, so a hung process
+              # is caught where a bare TCP check would pass.
+              path: /10.x/initials/svg
               port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           readinessProbe:
-            tcpSocket:
+            httpGet:
+              path: /10.x/initials/svg
               port: http
             initialDelaySeconds: 5
             periodSeconds: 5

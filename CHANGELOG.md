@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Deployment, Service, and ServiceAccount for the self-hosted DiceBear HTTP API, pinned to the retagged `gsoci.azurecr.io/giantswarm/dicebear-api` image, with `PNG_SIZE_MAX=512`, a read-only root filesystem, TCP health probes, pod anti-affinity across nodes, bounded `emptyDir` volumes with `ephemeral-storage` requests/limits, and a `PodDisruptionBudget` (`minAvailable: 1`, only when running more than one replica).
+- Deployment, Service, and ServiceAccount for the self-hosted DiceBear HTTP API, pinned to the retagged `gsoci.azurecr.io/giantswarm/dicebear-api` image, with `PNG_SIZE_MAX=512`, a read-only root filesystem, HTTP health probes against the initials render endpoint, pod anti-affinity across nodes, bounded `emptyDir` volumes with `ephemeral-storage` requests/limits, and a `PodDisruptionBudget` (`minAvailable: 1`, only when running more than one replica).
 - App-test-suite smoke and functional tests (`tests/ats`) that deploy the chart on kind and assert the deployment runs and the initials avatar endpoint returns `200`. Upgrade tests are skipped until a first release exists.
 
 [Unreleased]: https://github.com/giantswarm/dicebear/tree/main

@@ -42,8 +42,8 @@ resources:
   requests:
     cpu: 50m
     memory: 64Mi
-    # Required by Kyverno policy for pods using emptyDir; covers both the
-    # /tmp and /run volumes (emptyDirSizeLimit each) plus headroom.
+    # Required by Kyverno policy for pods using emptyDir. Sized for scheduling;
+    # the limit below is what bounds the two emptyDir volumes.
     ephemeral-storage: 64Mi
   limits:
     cpu: 500m
