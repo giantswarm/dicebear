@@ -127,6 +127,54 @@
             },
             "additionalProperties": false
         },
+        "route": {
+            "type": "object",
+            "properties": {
+                "annotations": {
+                    "description": "Extra annotations for the HTTPRoute.",
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "defaultSize": {
+                    "description": "Size used when the URL omits one. Must be one of `sizes`.",
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "enabled": {
+                    "description": "Enable the HTTPRoute and Envoy Gateway HTTPRouteFilter resources.",
+                    "type": "boolean"
+                },
+                "hostnames": {
+                    "description": "Hostnames the avatar endpoint is served on (e.g. `avatars.example.com`).",
+                    "type": "array"
+                },
+                "labels": {
+                    "description": "Extra labels for the HTTPRoute.",
+                    "type": "object",
+                    "additionalProperties": {}
+                },
+                "parentRefs": {
+                    "description": "Parent Gateway references the HTTPRoute attaches to. Required when enabled.",
+                    "type": "array"
+                },
+                "preview": {
+                    "description": "Also expose no-cache preview routes under `/\u003cversion\u003e/preview/...` for the creation-time live preview.",
+                    "type": "boolean"
+                },
+                "sizes": {
+                    "description": "Whitelisted avatar sizes (px). Only these are accepted in the URL.",
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "version": {
+                    "description": "Path version segment. A future global restyle bumps this to mint fresh URLs.",
+                    "type": "string"
+                }
+            },
+            "additionalProperties": false
+        },
         "securityContext": {
             "description": "Container-level security context.",
             "$ref": "#/$defs/_definitions.json/definitions/io.k8s.api.core.v1.SecurityContext",
