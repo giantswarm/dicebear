@@ -69,3 +69,36 @@ securityContext:
   capabilities:
     drop:
       - ALL
+
+# Gateway API routing for the public avatar endpoint. Disabled by default; the
+# platform enables it and supplies parentRefs + hostnames. Requires Envoy
+# Gateway on the target cluster (the HTTPRouteFilter CRD does the path->query
+# rewrite that vanilla Gateway API URLRewrite cannot).
+route:
+  # @schema type:boolean
+  # -- Enable the HTTPRoute and Envoy Gateway HTTPRouteFilter resources.
+  enabled: false
+  # @schema type:array
+  # -- Parent Gateway references the HTTPRoute attaches to. Required when enabled.
+  parentRefs: []
+  # @schema type:array
+  # -- Hostnames the avatar endpoint is served on (e.g. `avatars.example.com`).
+  hostnames: []
+  # @schema type:string
+  # -- Path version segment. A future global restyle bumps this to mint fresh URLs.
+  version: v1
+  # -- Allowed avatar sizes (px). Only these are accepted in the URL.
+  sizes: [48, 96, 128, 512]
+  # @schema type:integer;minimum:1
+  # -- Size used when the URL omits one. Must be one of `sizes`.
+  defaultSize: 512
+  # @schema type:boolean
+  # -- Also expose no-cache preview routes under `/<version>/preview/...` for
+  # the creation-time live preview.
+  preview: true
+  # @schema type:object;additionalProperties:{type:string}
+  # -- Extra annotations for the HTTPRoute.
+  annotations: {}
+  # @schema type:object;additionalProperties:{type:string}
+  # -- Extra labels for the HTTPRoute.
+  labels: {}

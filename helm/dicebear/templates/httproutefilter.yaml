@@ -1,0 +1,47 @@
+{{- if .Values.route.enabled }}
+{{- $name := include "name" . }}
+{{- $version := .Values.route.version }}
+{{- $sizes := join "|" .Values.route.sizes }}
+{{- /* DiceBear-10-only image; the initials style rendered as PNG. */}}
+{{- $target := "/10.x/initials/png" }}
+{{- /*
+  The optional (?:preview/)? prefix lets one filter serve both the canonical
+  and the preview routes -- the preview vs. canonical distinction (and its
+  no-store header) is made at the HTTPRoute match level, not here.
+
+  The seed segment is matched as [a-z0-9-]+ on purpose: the avatar URL is built
+  from an agent's technical DNS-1123 name (per the agent-avatar-icon PRD), which
+  is exactly lowercase alphanumerics + hyphens. A seed outside that set (e.g. an
+  uppercase or underscored name) is not a valid agent name and intentionally does
+  not route.
+*/}}
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  name: {{ $name }}-rewrite-default
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  urlRewrite:
+    path:
+      type: ReplaceRegexMatch
+      replaceRegexMatch:
+        pattern: '^/{{ $version }}/(?:preview/)?([a-z0-9-]+)\.png$'
+        substitution: '{{ $target }}?seed=\1&size={{ .Values.route.defaultSize }}'
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: HTTPRouteFilter
+metadata:
+  name: {{ $name }}-rewrite-sized
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+spec:
+  urlRewrite:
+    path:
+      type: ReplaceRegexMatch
+      replaceRegexMatch:
+        pattern: '^/{{ $version }}/(?:preview/)?({{ $sizes }})/([a-z0-9-]+)\.png$'
+        substitution: '{{ $target }}?seed=\2&size=\1'
+{{- end }}

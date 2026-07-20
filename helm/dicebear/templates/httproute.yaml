@@ -1,0 +1,114 @@
+{{- if .Values.route.enabled }}
+{{- if not .Values.route.parentRefs }}
+{{- fail "route.parentRefs is required when route.enabled is true" }}
+{{- end }}
+{{- if not .Values.route.hostnames }}
+{{- fail "route.hostnames is required when route.enabled is true; an empty list would attach the route to every hostname of the parent Gateway" }}
+{{- end }}
+{{- if not .Values.route.sizes }}
+{{- fail "route.sizes must not be empty when route.enabled is true" }}
+{{- end }}
+{{- if not (has .Values.route.defaultSize .Values.route.sizes) }}
+{{- fail (printf "route.defaultSize (%v) must be one of route.sizes (%v)" .Values.route.defaultSize .Values.route.sizes) }}
+{{- end }}
+{{- range .Values.route.sizes }}
+{{- if gt (int .) (int $.Values.config.pngSizeMax) }}
+{{- fail (printf "route.sizes value %v exceeds config.pngSizeMax (%v); the API would reject that size" . $.Values.config.pngSizeMax) }}
+{{- end }}
+{{- end }}
+{{- $name := include "name" . }}
+{{- $version := .Values.route.version }}
+{{- $sizes := join "|" .Values.route.sizes }}
+{{- $svcPort := 80 }}
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "labels.common" . | nindent 4 }}
+    {{- with .Values.route.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.route.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    {{- toYaml .Values.route.parentRefs | nindent 4 }}
+  {{- with .Values.route.hostnames }}
+  hostnames:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  rules:
+    {{- if .Values.route.preview }}
+    # Preview, sized: rewrite to the DiceBear query and mark no-store so
+    # throwaway seeds typed during agent creation never enter any cache.
+    - matches:
+        - path:
+            type: RegularExpression
+            value: '^/{{ $version }}/preview/({{ $sizes }})/[a-z0-9-]+\.png$'
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.envoyproxy.io
+            kind: HTTPRouteFilter
+            name: {{ $name }}-rewrite-sized
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: Cache-Control
+                value: no-store
+      backendRefs:
+        - name: {{ $name }}
+          port: {{ $svcPort }}
+    # Preview, default size.
+    - matches:
+        - path:
+            type: RegularExpression
+            value: '^/{{ $version }}/preview/[a-z0-9-]+\.png$'
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.envoyproxy.io
+            kind: HTTPRouteFilter
+            name: {{ $name }}-rewrite-default
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            set:
+              - name: Cache-Control
+                value: no-store
+      backendRefs:
+        - name: {{ $name }}
+          port: {{ $svcPort }}
+    {{- end }}
+    # Canonical, sized: /<version>/<size>/<name>.png (size from the allowlist).
+    - matches:
+        - path:
+            type: RegularExpression
+            value: '^/{{ $version }}/({{ $sizes }})/[a-z0-9-]+\.png$'
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.envoyproxy.io
+            kind: HTTPRouteFilter
+            name: {{ $name }}-rewrite-sized
+      backendRefs:
+        - name: {{ $name }}
+          port: {{ $svcPort }}
+    # Canonical, default size: /<version>/<name>.png.
+    - matches:
+        - path:
+            type: RegularExpression
+            value: '^/{{ $version }}/[a-z0-9-]+\.png$'
+      filters:
+        - type: ExtensionRef
+          extensionRef:
+            group: gateway.envoyproxy.io
+            kind: HTTPRouteFilter
+            name: {{ $name }}-rewrite-default
+      backendRefs:
+        - name: {{ $name }}
+          port: {{ $svcPort }}
+{{- end }}
