@@ -2,6 +2,20 @@
 {{- if not .Values.route.parentRefs }}
 {{- fail "route.parentRefs is required when route.enabled is true" }}
 {{- end }}
+{{- if not .Values.route.hostnames }}
+{{- fail "route.hostnames is required when route.enabled is true; an empty list would attach the route to every hostname of the parent Gateway" }}
+{{- end }}
+{{- if not .Values.route.sizes }}
+{{- fail "route.sizes must not be empty when route.enabled is true" }}
+{{- end }}
+{{- if not (has .Values.route.defaultSize .Values.route.sizes) }}
+{{- fail (printf "route.defaultSize (%v) must be one of route.sizes (%v)" .Values.route.defaultSize .Values.route.sizes) }}
+{{- end }}
+{{- range .Values.route.sizes }}
+{{- if gt (int .) (int $.Values.config.pngSizeMax) }}
+{{- fail (printf "route.sizes value %v exceeds config.pngSizeMax (%v); the API would reject that size" . $.Values.config.pngSizeMax) }}
+{{- end }}
+{{- end }}
 {{- $name := include "name" . }}
 {{- $version := .Values.route.version }}
 {{- $sizes := join "|" .Values.route.sizes }}
