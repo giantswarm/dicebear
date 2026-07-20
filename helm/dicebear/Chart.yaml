@@ -3,8 +3,9 @@
 
 apiVersion: v2
 
-# Version of the packaged app
-appVersion: 4.9.0
+# Version of the packaged app. The 4.9 tag is the one mirrored into
+# gsoci.azurecr.io/giantswarm/dicebear-api (see giantswarm/retagger).
+appVersion: "4.9"
 
 # Make sure your name DOES NOT end in "app" or "-app".
 name: dicebear

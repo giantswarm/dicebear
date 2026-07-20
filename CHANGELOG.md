@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- changed: Regenerated `.circleci` config with `devctl gen circleci` — adopt the dynamic-config setup workflow (`config.yml` + `workflows.yml`) and bump the architect orb to v9.5.2.
-- changed: `app.giantswarm.io` label group was changed to `application.giantswarm.io`
+### Added
+
+- Deployment, Service, and ServiceAccount for the self-hosted DiceBear HTTP API, pinned to the retagged `gsoci.azurecr.io/giantswarm/dicebear-api` image, with `PNG_SIZE_MAX=512`, a read-only root filesystem, HTTP health probes against the initials render endpoint, pod anti-affinity across nodes, bounded `emptyDir` volumes with `ephemeral-storage` requests/limits, and a `PodDisruptionBudget` (`minAvailable: 1`, only when running more than one replica).
+- App-test-suite smoke and functional tests (`tests/ats`) that deploy the chart on kind and assert the deployment runs and the initials avatar endpoint returns `200`. Upgrade tests are skipped until a first release exists.
 
 [Unreleased]: https://github.com/giantswarm/dicebear/tree/main
