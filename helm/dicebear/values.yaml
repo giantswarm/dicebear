@@ -6,7 +6,55 @@
 #   https://docs.giantswarm.io/tutorials/fleet-management/app-platform/app-configuration/#basic-values-merging-example
 #
 image:
+  # -- Repository of the DiceBear API image, relative to the registry domain.
   name: "giantswarm/dicebear-api"
+  # -- Image tag. Defaults to the chart's `appVersion` when left empty.
   tag: ""
 registry:
+  # -- Registry domain the image is pulled from.
   domain: gsoci.azurecr.io
+
+# @schema type:integer;minimum:1
+# -- Number of DiceBear API replicas to run.
+replicas: 2
+
+# DiceBear HTTP API configuration.
+# See https://www.dicebear.com/guides/host-the-http-api-yourself/
+config:
+  # @schema type:integer;minimum:1;maximum:65535
+  # -- Port the DiceBear API listens on.
+  port: 3000
+  # @schema type:integer;minimum:1
+  # -- Largest PNG size (px) the API will render. The avatar edge requests up
+  # to 512, and the upstream default of 256 is too small, so we raise the cap.
+  pngSizeMax: 512
+
+# @schema $ref: $k8s/_definitions.json#/definitions/io.k8s.api.core.v1.ResourceRequirements
+# -- Compute resources for the DiceBear API container.
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# @schema $ref: $k8s/_definitions.json#/definitions/io.k8s.api.core.v1.PodSecurityContext
+# -- Pod-level security context.
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
+
+# @schema $ref: $k8s/_definitions.json#/definitions/io.k8s.api.core.v1.SecurityContext
+# -- Container-level security context.
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+  capabilities:
+    drop:
+      - ALL
