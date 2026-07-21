@@ -41,12 +41,16 @@ emptyDirSizeLimit: 64Mi
 resources:
   requests:
     cpu: 50m
-    memory: 64Mi
+    # Sized above the observed ~100Mi steady-state working set so the pod is
+    # represented honestly to the scheduler, while leaving 2x burst room to the limit.
+    memory: 128Mi
     # Required by Kyverno policy for pods using emptyDir. Sized for scheduling;
     # the limit below is what bounds the two emptyDir volumes.
     ephemeral-storage: 64Mi
   limits:
     cpu: 500m
+    # ~1.8x the observed ~140Mi peak working set (the metric the OOM killer
+    # enforces on), leaving headroom for PNG-render spikes.
     memory: 256Mi
     ephemeral-storage: 256Mi
 
