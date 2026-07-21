@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Raise the container memory request from `64Mi` to `128Mi`. The observed steady-state working set is ~100Mi (peaking ~140Mi), so the old request under-represented the pod to the scheduler; the request now sits above baseline with 2x burst room up to the unchanged `256Mi` limit.
 - Constrain `route.version` to `^[a-zA-Z0-9]+$` (values schema plus a template guard). The value is interpolated unescaped into the path-matching regular expressions, so a metacharacter (e.g. the dot in `v1.2`) would silently widen or break routing rather than mint a distinct URL space.
 
 [Unreleased]: https://github.com/giantswarm/dicebear/tree/main
