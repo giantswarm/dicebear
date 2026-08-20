@@ -23,7 +23,7 @@ raise the raster output-size cap. See [giantswarm/giantswarm#37211](https://gith
 
 **Who can use it?**
 
-The agent platform (bumblebee) deploys it wherever the platform bundle runs. It is not
+The Agent Platform (bumblebee) deploys it wherever the platform bundle runs. It is not
 intended for direct customer configuration.
 
 ## Installing
