@@ -313,6 +313,37 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
+        "baseDomain": {
+            "type": "string"
+        },
+        "bootstrapMode": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "chartOperator": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "ciliumNetworkPolicy": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "cluster": {
+            "type": "object",
+            "additionalProperties": true
+        },
+        "clusterCA": {
+            "type": "string"
+        },
+        "clusterCIDR": {
+            "type": "string"
+        },
+        "clusterDNSIP": {
+            "type": "string"
+        },
+        "clusterID": {
+            "type": "string"
+        },
         "config": {
             "type": "object",
             "additionalProperties": false,
@@ -333,6 +364,9 @@
         "emptyDirSizeLimit": {
             "type": "string",
             "description": "Size limit for the emptyDir volumes backing `/tmp` (PNG rendering) and `/run`, to bound node ephemeral-storage use."
+        },
+        "gcpProject": {
+            "type": "string"
         },
         "global": {
             "type": [
@@ -384,6 +418,9 @@
                 }
             },
             "unevaluatedProperties": false
+        },
+        "provider": {
+            "type": "string"
         },
         "registry": {
             "type": "object",
@@ -515,6 +552,9 @@
                 }
             },
             "unevaluatedProperties": false
+        },
+        "subscriptionID": {
+            "type": "string"
         }
     }
 }
