@@ -9,7 +9,6 @@
                     "required": [
                         "type"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                         "type": {
                             "type": "string",
@@ -24,7 +23,6 @@
                 "io.k8s.api.core.v1.Capabilities": {
                     "type": "object",
                     "description": "Adds and removes POSIX capabilities from running containers.",
-                    "additionalProperties": false,
                     "properties": {
                         "add": {
                             "type": "array",
@@ -45,7 +43,6 @@
                 "io.k8s.api.core.v1.PodSecurityContext": {
                     "type": "object",
                     "description": "PodSecurityContext holds pod-level security attributes and common container settings. Some fields are also present in container.securityContext.  Field values of container.securityContext take precedence over field values of PodSecurityContext.",
-                    "additionalProperties": false,
                     "properties": {
                         "appArmorProfile": {
                             "$ref": "#/$defs/_definitions.json/definitions/io.k8s.api.core.v1.AppArmorProfile",
@@ -117,7 +114,6 @@
                     "required": [
                         "name"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                         "name": {
                             "type": "string",
@@ -132,7 +128,6 @@
                 "io.k8s.api.core.v1.ResourceRequirements": {
                     "type": "object",
                     "description": "ResourceRequirements describes the compute resource requirements.",
-                    "additionalProperties": false,
                     "properties": {
                         "claims": {
                             "type": "array",
@@ -160,7 +155,6 @@
                 "io.k8s.api.core.v1.SELinuxOptions": {
                     "type": "object",
                     "description": "SELinuxOptions are the labels to be applied to the container",
-                    "additionalProperties": false,
                     "properties": {
                         "type": {
                             "type": "string",
@@ -186,7 +180,6 @@
                     "required": [
                         "type"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                         "type": {
                             "type": "string",
@@ -201,7 +194,6 @@
                 "io.k8s.api.core.v1.SecurityContext": {
                     "type": "object",
                     "description": "SecurityContext holds security configuration that will be applied to a container. Some fields are present in both SecurityContext and PodSecurityContext.  When both are set, the values in SecurityContext take precedence.",
-                    "additionalProperties": false,
                     "properties": {
                         "allowPrivilegeEscalation": {
                             "type": "boolean",
@@ -262,7 +254,6 @@
                         "name",
                         "value"
                     ],
-                    "additionalProperties": false,
                     "properties": {
                         "name": {
                             "type": "string",
@@ -277,7 +268,6 @@
                 "io.k8s.api.core.v1.WindowsSecurityContextOptions": {
                     "type": "object",
                     "description": "WindowsSecurityContextOptions contain Windows-specific options and credentials.",
-                    "additionalProperties": false,
                     "properties": {
                         "gmsaCredentialSpec": {
                             "type": "string",
@@ -374,7 +364,7 @@
                 "null"
             ],
             "description": "Global values shared between all subcharts",
-            "$comment": "Added automatically by 'helm schema' to allow this chart to be used as a Helm dependency, as the `additionalProperties` setting would otherwise collide with Helm's special 'global' values key."
+            "$comment": "Added automatically by 'helm schema' to allow this chart to be used as a Helm dependency, as this schema would otherwise not allow Helm's special 'global' values key."
         },
         "image": {
             "type": "object",
