@@ -10,7 +10,10 @@ Expand the name of the chart.
 Create chart name and version as used by the chart label.
 */}}
 {{- define "chart" -}}
-{{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
+{{- $chart := printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 -}}
+{{- /* A label value must end alphanumeric; the 63-char cut of a dev chart version
+       (0.3.10-dev.<branch>.<date>.<time>.h<sha>) can end on "." or "-". */ -}}
+{{- regexReplaceAll "[^A-Za-z0-9]+$" $chart "" -}}
 {{- end -}}
 
 {{/*
