@@ -1,7 +1,5 @@
 app-tests-deploy-namespace: dicebear
 
-smoke-tests-cluster-type: kind
-
 # Skip functional and upgrade: this is a brand-new chart with no released
 # version to upgrade from, and the smoke test already covers a live deploy
 # plus an avatar-render check.
